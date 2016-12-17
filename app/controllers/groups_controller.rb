@@ -11,12 +11,26 @@ class GroupsController < ApplicationController
   def create
    @group = Group.new(group_params)
    @group.save
+   redirect_to groups_path
+  end
 
-     redirect_to groups_path
-   end
-   def edit
+  def update
    @group = Group.find(params[:id])
-   end
+
+   @group.update(group_params)
+
+   redirect_to groups_path, notice: "Update Success"
+  end
+  def destroy
+  @group = Group.find(params[:id])
+   @group.destroy
+   flash[:alert] = "Group deleted"
+   redirect_to groups_path
+
+  end
+  def edit
+   @group = Group.find(params[:id])
+  end
   private
   def group_params
    params.require(:group).permit(:title, :description)
